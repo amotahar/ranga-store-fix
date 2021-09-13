@@ -1,4 +1,3 @@
-
 const loadProducts = () => {
   const url = `https://raw.githubusercontent.com/ProgrammingHero1/ranga-store-api/main/ranga-api.json?fbclid=IwAR1zm9C4T4kU1b0B02ygbvXoa73L4dK6ht_PR0a0ZD3ZcUpF7H5TJEk2ehQ`;
   fetch(url)
@@ -7,11 +6,77 @@ const loadProducts = () => {
 };
 loadProducts();
 
+// Rating variable
+
+const rate_1 = `
+<p>
+<i class="fas fa-star"></i>
+<i class="far fa-star"></i>
+<i class="far fa-star"></i>
+<i class="far fa-star"></i>
+<i class="far fa-star"></i>
+</p>
+`
+const rate_2 = `
+<p>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="far fa-star"></i>
+<i class="far fa-star"></i>
+<i class="far fa-star"></i>
+</p>
+`
+const rate_3 = `
+<p>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="far fa-star"></i>
+<i class="far fa-star"></i>
+</p>
+`
+const rate_4 = `
+<p>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="far fa-star"></i>
+</p>
+`
+const rate_5 = `
+<p>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+</p>
+`
+
+// Rate function
+
+const rateing = (data) => {
+  if (data == 1) {
+    return rate_1;
+  } else if (data == 2) {
+    return rate_2;
+  }else if (data == 3) {
+    return rate_3;
+  }else if (data == 4) {
+    return rate_4;
+  }else if (data == 5) {
+    return rate_5;
+  }
+}
+
+
 // show all product in UI 
 const showProducts = (products) => {
   const allProducts = products.map((pd) => pd);
   for (const product of allProducts) {
     const image = product.image;
+    const rateRound = parseInt(product.rating.rate)
     const div = document.createElement("div");
     div.classList.add("product");
     div.innerHTML = `
@@ -22,16 +87,14 @@ const showProducts = (products) => {
     <h4 class="card-title">${product.title}</h4>
     <p>Category: ${product.category}</p>
     <h2>Price: $ ${product.price}</h2>
+
+    <div>
+    ${rateing(rateRound)}
+    </div>
    
-    <p>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star-half-alt"></i>
-    </p>
-    <p>Average Rating is = ${product.rating.rate}</p>
-    <p>Total Rating is = ${product.rating.count}</p>
+    
+    <p>Average Rating = ${product.rating.rate}</p>
+    <p>Total Rating = ${product.rating.count}</p>
     <button onclick="addToCart(${product.id},${product.price})" id="addToCart-btn" class="buy-now btn btn-primary">add to cart</button>
     <button id="details-btn" class="btn btn-danger">Details</button></div>
   </div>
@@ -59,7 +122,7 @@ const addToCart = (id, price) => {
   updatePrice("price", price);
   updateTaxAndCharge();
   updateTotal();
- 
+
   document.getElementById("total-Products").innerText = count;
 };
 
